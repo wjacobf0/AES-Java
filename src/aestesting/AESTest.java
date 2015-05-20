@@ -10,11 +10,10 @@ import aes.AES_Length;
 public class AESTest {
 	
 	@Test
-	public void AES128Check()
+	public void AES256Check()
 	{
 		// This is to make sure the sample key expands like the AES standard dictates. It uses a sample key from the nist fips 197 document key expand section.
 		byte[] testKey = {(byte)0x60, (byte)0x3d, (byte)0xeb, (byte)0x10, (byte)0x15, (byte)0xca, (byte)0x71, (byte)0xbe, (byte)0x2b, (byte)0x73, (byte)0xae, (byte)0xf0, (byte)0x85, (byte)0x7d, (byte)0x77, (byte)0x81, (byte)0x1f, (byte)0x35, (byte)0x2c, (byte)0x07, (byte)0x3b, (byte)0x61, (byte)0x08, (byte)0xd7, (byte)0x2d, (byte)0x98, (byte)0x10, (byte)0xa3, (byte)0x09, (byte)0x14, (byte)0xdf, (byte)0xf4};
-		@SuppressWarnings("unused")
 		AES testRun = new AES(AES_Length.AES_256, testKey); // this matches the AES standard (check with breakpoint debugging).
 
 		// create new AES key like the one used in FIPS-197 C.3.

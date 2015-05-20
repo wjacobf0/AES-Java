@@ -10,49 +10,49 @@ public class AES
 	
 	private final int[] w;
 	
-	private final byte[][] sBox = {
-			{(byte) 0x63, (byte) 0x7c, (byte) 0x77, (byte) 0x7b, (byte) 0xf2, (byte) 0x6b, (byte) 0x6f, (byte) 0xc5, (byte) 0x30, (byte) 0x01, (byte) 0x67, (byte) 0x2b, (byte) 0xfe, (byte) 0xd7, (byte) 0xab, (byte) 0x76},
-			{(byte) 0xca, (byte) 0x82, (byte) 0xc9, (byte) 0x7d, (byte) 0xfa, (byte) 0x59, (byte) 0x47, (byte) 0xf0, (byte) 0xad, (byte) 0xd4, (byte) 0xa2, (byte) 0xaf, (byte) 0x9c, (byte) 0xa4, (byte) 0x72, (byte) 0xc0},
-			{(byte) 0xb7, (byte) 0xfd, (byte) 0x93, (byte) 0x26, (byte) 0x36, (byte) 0x3f, (byte) 0xf7, (byte) 0xcc, (byte) 0x34, (byte) 0xa5, (byte) 0xe5, (byte) 0xf1, (byte) 0x71, (byte) 0xd8, (byte) 0x31, (byte) 0x15},
-			{(byte) 0x04, (byte) 0xc7, (byte) 0x23, (byte) 0xc3, (byte) 0x18, (byte) 0x96, (byte) 0x05, (byte) 0x9a, (byte) 0x07, (byte) 0x12, (byte) 0x80, (byte) 0xe2, (byte) 0xeb, (byte) 0x27, (byte) 0xb2, (byte) 0x75},
-			{(byte) 0x09, (byte) 0x83, (byte) 0x2c, (byte) 0x1a, (byte) 0x1b, (byte) 0x6e, (byte) 0x5a, (byte) 0xa0, (byte) 0x52, (byte) 0x3b, (byte) 0xd6, (byte) 0xb3, (byte) 0x29, (byte) 0xe3, (byte) 0x2f, (byte) 0x84},
-			{(byte) 0x53, (byte) 0xd1, (byte) 0x00, (byte) 0xed, (byte) 0x20, (byte) 0xfc, (byte) 0xb1, (byte) 0x5b, (byte) 0x6a, (byte) 0xcb, (byte) 0xbe, (byte) 0x39, (byte) 0x4a, (byte) 0x4c, (byte) 0x58, (byte) 0xcf},
-			{(byte) 0xd0, (byte) 0xef, (byte) 0xaa, (byte) 0xfb, (byte) 0x43, (byte) 0x4d, (byte) 0x33, (byte) 0x85, (byte) 0x45, (byte) 0xf9, (byte) 0x02, (byte) 0x7f, (byte) 0x50, (byte) 0x3c, (byte) 0x9f, (byte) 0xa8},
-			{(byte) 0x51, (byte) 0xa3, (byte) 0x40, (byte) 0x8f, (byte) 0x92, (byte) 0x9d, (byte) 0x38, (byte) 0xf5, (byte) 0xbc, (byte) 0xb6, (byte) 0xda, (byte) 0x21, (byte) 0x10, (byte) 0xff, (byte) 0xf3, (byte) 0xd2},
-			{(byte) 0xcd, (byte) 0x0c, (byte) 0x13, (byte) 0xec, (byte) 0x5f, (byte) 0x97, (byte) 0x44, (byte) 0x17, (byte) 0xc4, (byte) 0xa7, (byte) 0x7e, (byte) 0x3d, (byte) 0x64, (byte) 0x5d, (byte) 0x19, (byte) 0x73},
-			{(byte) 0x60, (byte) 0x81, (byte) 0x4f, (byte) 0xdc, (byte) 0x22, (byte) 0x2a, (byte) 0x90, (byte) 0x88, (byte) 0x46, (byte) 0xee, (byte) 0xb8, (byte) 0x14, (byte) 0xde, (byte) 0x5e, (byte) 0x0b, (byte) 0xdb},
-			{(byte) 0xe0, (byte) 0x32, (byte) 0x3a, (byte) 0x0a, (byte) 0x49, (byte) 0x06, (byte) 0x24, (byte) 0x5c, (byte) 0xc2, (byte) 0xd3, (byte) 0xac, (byte) 0x62, (byte) 0x91, (byte) 0x95, (byte) 0xe4, (byte) 0x79},
-			{(byte) 0xe7, (byte) 0xc8, (byte) 0x37, (byte) 0x6d, (byte) 0x8d, (byte) 0xd5, (byte) 0x4e, (byte) 0xa9, (byte) 0x6c, (byte) 0x56, (byte) 0xf4, (byte) 0xea, (byte) 0x65, (byte) 0x7a, (byte) 0xae, (byte) 0x08},
-			{(byte) 0xba, (byte) 0x78, (byte) 0x25, (byte) 0x2e, (byte) 0x1c, (byte) 0xa6, (byte) 0xb4, (byte) 0xc6, (byte) 0xe8, (byte) 0xdd, (byte) 0x74, (byte) 0x1f, (byte) 0x4b, (byte) 0xbd, (byte) 0x8b, (byte) 0x8a},
-			{(byte) 0x70, (byte) 0x3e, (byte) 0xb5, (byte) 0x66, (byte) 0x48, (byte) 0x03, (byte) 0xf6, (byte) 0x0e, (byte) 0x61, (byte) 0x35, (byte) 0x57, (byte) 0xb9, (byte) 0x86, (byte) 0xc1, (byte) 0x1d, (byte) 0x9e},
-			{(byte) 0xe1, (byte) 0xf8, (byte) 0x98, (byte) 0x11, (byte) 0x69, (byte) 0xd9, (byte) 0x8e, (byte) 0x94, (byte) 0x9b, (byte) 0x1e, (byte) 0x87, (byte) 0xe9, (byte) 0xce, (byte) 0x55, (byte) 0x28, (byte) 0xdf},
-			{(byte) 0x8c, (byte) 0xa1, (byte) 0x89, (byte) 0x0d, (byte) 0xbf, (byte) 0xe6, (byte) 0x42, (byte) 0x68, (byte) 0x41, (byte) 0x99, (byte) 0x2d, (byte) 0x0f, (byte) 0xb0, (byte) 0x54, (byte) 0xbb, (byte) 0x16}
-	}; // End of sBox Def
-	
-	private final byte[][] invSBox = {
-			{(byte) 0x52, (byte) 0x09, (byte) 0x6a, (byte) 0xd5, (byte) 0x30, (byte) 0x36, (byte) 0xa5, (byte) 0x38, (byte) 0xbf, (byte) 0x40, (byte) 0xa3, (byte) 0x9e, (byte) 0x81, (byte) 0xf3, (byte) 0xd7, (byte) 0xfb},
-			{(byte) 0x7c, (byte) 0xe3, (byte) 0x39, (byte) 0x82, (byte) 0x9b, (byte) 0x2f, (byte) 0xff, (byte) 0x87, (byte) 0x34, (byte) 0x8e, (byte) 0x43, (byte) 0x44, (byte) 0xc4, (byte) 0xde, (byte) 0xe9, (byte) 0xcb},
-			{(byte) 0x54, (byte) 0x7b, (byte) 0x94, (byte) 0x32, (byte) 0xa6, (byte) 0xc2, (byte) 0x23, (byte) 0x3d, (byte) 0xee, (byte) 0x4c, (byte) 0x95, (byte) 0x0b, (byte) 0x42, (byte) 0xfa, (byte) 0xc3, (byte) 0x4e},
-			{(byte) 0x08, (byte) 0x2e, (byte) 0xa1, (byte) 0x66, (byte) 0x28, (byte) 0xd9, (byte) 0x24, (byte) 0xb2, (byte) 0x76, (byte) 0x5b, (byte) 0xa2, (byte) 0x49, (byte) 0x6d, (byte) 0x8b, (byte) 0xd1, (byte) 0x25},
-			{(byte) 0x72, (byte) 0xf8, (byte) 0xf6, (byte) 0x64, (byte) 0x86, (byte) 0x68, (byte) 0x98, (byte) 0x16, (byte) 0xd4, (byte) 0xa4, (byte) 0x5c, (byte) 0xcc, (byte) 0x5d, (byte) 0x65, (byte) 0xb6, (byte) 0x92},
-			{(byte) 0x6c, (byte) 0x70, (byte) 0x48, (byte) 0x50, (byte) 0xfd, (byte) 0xed, (byte) 0xb9, (byte) 0xda, (byte) 0x5e, (byte) 0x15, (byte) 0x46, (byte) 0x57, (byte) 0xa7, (byte) 0x8d, (byte) 0x9d, (byte) 0x84},
-			{(byte) 0x90, (byte) 0xd8, (byte) 0xab, (byte) 0x00, (byte) 0x8c, (byte) 0xbc, (byte) 0xd3, (byte) 0x0a, (byte) 0xf7, (byte) 0xe4, (byte) 0x58, (byte) 0x05, (byte) 0xb8, (byte) 0xb3, (byte) 0x45, (byte) 0x06},
-			{(byte) 0xd0, (byte) 0x2c, (byte) 0x1e, (byte) 0x8f, (byte) 0xca, (byte) 0x3f, (byte) 0x0f, (byte) 0x02, (byte) 0xc1, (byte) 0xaf, (byte) 0xbd, (byte) 0x03, (byte) 0x01, (byte) 0x13, (byte) 0x8a, (byte) 0x6b},
-			{(byte) 0x3a, (byte) 0x91, (byte) 0x11, (byte) 0x41, (byte) 0x4f, (byte) 0x67, (byte) 0xdc, (byte) 0xea, (byte) 0x97, (byte) 0xf2, (byte) 0xcf, (byte) 0xce, (byte) 0xf0, (byte) 0xb4, (byte) 0xe6, (byte) 0x73},
-			{(byte) 0x96, (byte) 0xac, (byte) 0x74, (byte) 0x22, (byte) 0xe7, (byte) 0xad, (byte) 0x35, (byte) 0x85, (byte) 0xe2, (byte) 0xf9, (byte) 0x37, (byte) 0xe8, (byte) 0x1c, (byte) 0x75, (byte) 0xdf, (byte) 0x6e},
-			{(byte) 0x47, (byte) 0xf1, (byte) 0x1a, (byte) 0x71, (byte) 0x1d, (byte) 0x29, (byte) 0xc5, (byte) 0x89, (byte) 0x6f, (byte) 0xb7, (byte) 0x62, (byte) 0x0e, (byte) 0xaa, (byte) 0x18, (byte) 0xbe, (byte) 0x1b},
-			{(byte) 0xfc, (byte) 0x56, (byte) 0x3e, (byte) 0x4b, (byte) 0xc6, (byte) 0xd2, (byte) 0x79, (byte) 0x20, (byte) 0x9a, (byte) 0xdb, (byte) 0xc0, (byte) 0xfe, (byte) 0x78, (byte) 0xcd, (byte) 0x5a, (byte) 0xf4},
-			{(byte) 0x1f, (byte) 0xdd, (byte) 0xa8, (byte) 0x33, (byte) 0x88, (byte) 0x07, (byte) 0xc7, (byte) 0x31, (byte) 0xb1, (byte) 0x12, (byte) 0x10, (byte) 0x59, (byte) 0x27, (byte) 0x80, (byte) 0xec, (byte) 0x5f},
-			{(byte) 0x60, (byte) 0x51, (byte) 0x7f, (byte) 0xa9, (byte) 0x19, (byte) 0xb5, (byte) 0x4a, (byte) 0x0d, (byte) 0x2d, (byte) 0xe5, (byte) 0x7a, (byte) 0x9f, (byte) 0x93, (byte) 0xc9, (byte) 0x9c, (byte) 0xef},
-			{(byte) 0xa0, (byte) 0xe0, (byte) 0x3b, (byte) 0x4d, (byte) 0xae, (byte) 0x2a, (byte) 0xf5, (byte) 0xb0, (byte) 0xc8, (byte) 0xeb, (byte) 0xbb, (byte) 0x3c, (byte) 0x83, (byte) 0x53, (byte) 0x99, (byte) 0x61},
-			{(byte) 0x17, (byte) 0x2b, (byte) 0x04, (byte) 0x7e, (byte) 0xba, (byte) 0x77, (byte) 0xd6, (byte) 0x26, (byte) 0xe1, (byte) 0x69, (byte) 0x14, (byte) 0x63, (byte) 0x55, (byte) 0x21, (byte) 0x0c, (byte) 0x7d}
-	}; // End of invSBox Def
+	private final byte[] sBox = {
+			(byte) 0x63, (byte) 0x7c, (byte) 0x77, (byte) 0x7b, (byte) 0xf2, (byte) 0x6b, (byte) 0x6f, (byte) 0xc5, (byte) 0x30, (byte) 0x01, (byte) 0x67, (byte) 0x2b, (byte) 0xfe, (byte) 0xd7, (byte) 0xab, (byte) 0x76,
+			(byte) 0xca, (byte) 0x82, (byte) 0xc9, (byte) 0x7d, (byte) 0xfa, (byte) 0x59, (byte) 0x47, (byte) 0xf0, (byte) 0xad, (byte) 0xd4, (byte) 0xa2, (byte) 0xaf, (byte) 0x9c, (byte) 0xa4, (byte) 0x72, (byte) 0xc0,
+			(byte) 0xb7, (byte) 0xfd, (byte) 0x93, (byte) 0x26, (byte) 0x36, (byte) 0x3f, (byte) 0xf7, (byte) 0xcc, (byte) 0x34, (byte) 0xa5, (byte) 0xe5, (byte) 0xf1, (byte) 0x71, (byte) 0xd8, (byte) 0x31, (byte) 0x15,
+			(byte) 0x04, (byte) 0xc7, (byte) 0x23, (byte) 0xc3, (byte) 0x18, (byte) 0x96, (byte) 0x05, (byte) 0x9a, (byte) 0x07, (byte) 0x12, (byte) 0x80, (byte) 0xe2, (byte) 0xeb, (byte) 0x27, (byte) 0xb2, (byte) 0x75,
+			(byte) 0x09, (byte) 0x83, (byte) 0x2c, (byte) 0x1a, (byte) 0x1b, (byte) 0x6e, (byte) 0x5a, (byte) 0xa0, (byte) 0x52, (byte) 0x3b, (byte) 0xd6, (byte) 0xb3, (byte) 0x29, (byte) 0xe3, (byte) 0x2f, (byte) 0x84,
+			(byte) 0x53, (byte) 0xd1, (byte) 0x00, (byte) 0xed, (byte) 0x20, (byte) 0xfc, (byte) 0xb1, (byte) 0x5b, (byte) 0x6a, (byte) 0xcb, (byte) 0xbe, (byte) 0x39, (byte) 0x4a, (byte) 0x4c, (byte) 0x58, (byte) 0xcf,
+			(byte) 0xd0, (byte) 0xef, (byte) 0xaa, (byte) 0xfb, (byte) 0x43, (byte) 0x4d, (byte) 0x33, (byte) 0x85, (byte) 0x45, (byte) 0xf9, (byte) 0x02, (byte) 0x7f, (byte) 0x50, (byte) 0x3c, (byte) 0x9f, (byte) 0xa8,
+			(byte) 0x51, (byte) 0xa3, (byte) 0x40, (byte) 0x8f, (byte) 0x92, (byte) 0x9d, (byte) 0x38, (byte) 0xf5, (byte) 0xbc, (byte) 0xb6, (byte) 0xda, (byte) 0x21, (byte) 0x10, (byte) 0xff, (byte) 0xf3, (byte) 0xd2,
+			(byte) 0xcd, (byte) 0x0c, (byte) 0x13, (byte) 0xec, (byte) 0x5f, (byte) 0x97, (byte) 0x44, (byte) 0x17, (byte) 0xc4, (byte) 0xa7, (byte) 0x7e, (byte) 0x3d, (byte) 0x64, (byte) 0x5d, (byte) 0x19, (byte) 0x73,
+			(byte) 0x60, (byte) 0x81, (byte) 0x4f, (byte) 0xdc, (byte) 0x22, (byte) 0x2a, (byte) 0x90, (byte) 0x88, (byte) 0x46, (byte) 0xee, (byte) 0xb8, (byte) 0x14, (byte) 0xde, (byte) 0x5e, (byte) 0x0b, (byte) 0xdb,
+			(byte) 0xe0, (byte) 0x32, (byte) 0x3a, (byte) 0x0a, (byte) 0x49, (byte) 0x06, (byte) 0x24, (byte) 0x5c, (byte) 0xc2, (byte) 0xd3, (byte) 0xac, (byte) 0x62, (byte) 0x91, (byte) 0x95, (byte) 0xe4, (byte) 0x79,
+			(byte) 0xe7, (byte) 0xc8, (byte) 0x37, (byte) 0x6d, (byte) 0x8d, (byte) 0xd5, (byte) 0x4e, (byte) 0xa9, (byte) 0x6c, (byte) 0x56, (byte) 0xf4, (byte) 0xea, (byte) 0x65, (byte) 0x7a, (byte) 0xae, (byte) 0x08,
+			(byte) 0xba, (byte) 0x78, (byte) 0x25, (byte) 0x2e, (byte) 0x1c, (byte) 0xa6, (byte) 0xb4, (byte) 0xc6, (byte) 0xe8, (byte) 0xdd, (byte) 0x74, (byte) 0x1f, (byte) 0x4b, (byte) 0xbd, (byte) 0x8b, (byte) 0x8a,
+			(byte) 0x70, (byte) 0x3e, (byte) 0xb5, (byte) 0x66, (byte) 0x48, (byte) 0x03, (byte) 0xf6, (byte) 0x0e, (byte) 0x61, (byte) 0x35, (byte) 0x57, (byte) 0xb9, (byte) 0x86, (byte) 0xc1, (byte) 0x1d, (byte) 0x9e,
+			(byte) 0xe1, (byte) 0xf8, (byte) 0x98, (byte) 0x11, (byte) 0x69, (byte) 0xd9, (byte) 0x8e, (byte) 0x94, (byte) 0x9b, (byte) 0x1e, (byte) 0x87, (byte) 0xe9, (byte) 0xce, (byte) 0x55, (byte) 0x28, (byte) 0xdf,
+			(byte) 0x8c, (byte) 0xa1, (byte) 0x89, (byte) 0x0d, (byte) 0xbf, (byte) 0xe6, (byte) 0x42, (byte) 0x68, (byte) 0x41, (byte) 0x99, (byte) 0x2d, (byte) 0x0f, (byte) 0xb0, (byte) 0x54, (byte) 0xbb, (byte) 0x16}; 
+	// End of sBox Def
+
+	private final byte[] invSBox = {
+			(byte) 0x52, (byte) 0x09, (byte) 0x6a, (byte) 0xd5, (byte) 0x30, (byte) 0x36, (byte) 0xa5, (byte) 0x38, (byte) 0xbf, (byte) 0x40, (byte) 0xa3, (byte) 0x9e, (byte) 0x81, (byte) 0xf3, (byte) 0xd7, (byte) 0xfb,
+			(byte) 0x7c, (byte) 0xe3, (byte) 0x39, (byte) 0x82, (byte) 0x9b, (byte) 0x2f, (byte) 0xff, (byte) 0x87, (byte) 0x34, (byte) 0x8e, (byte) 0x43, (byte) 0x44, (byte) 0xc4, (byte) 0xde, (byte) 0xe9, (byte) 0xcb,
+			(byte) 0x54, (byte) 0x7b, (byte) 0x94, (byte) 0x32, (byte) 0xa6, (byte) 0xc2, (byte) 0x23, (byte) 0x3d, (byte) 0xee, (byte) 0x4c, (byte) 0x95, (byte) 0x0b, (byte) 0x42, (byte) 0xfa, (byte) 0xc3, (byte) 0x4e,
+			(byte) 0x08, (byte) 0x2e, (byte) 0xa1, (byte) 0x66, (byte) 0x28, (byte) 0xd9, (byte) 0x24, (byte) 0xb2, (byte) 0x76, (byte) 0x5b, (byte) 0xa2, (byte) 0x49, (byte) 0x6d, (byte) 0x8b, (byte) 0xd1, (byte) 0x25,
+			(byte) 0x72, (byte) 0xf8, (byte) 0xf6, (byte) 0x64, (byte) 0x86, (byte) 0x68, (byte) 0x98, (byte) 0x16, (byte) 0xd4, (byte) 0xa4, (byte) 0x5c, (byte) 0xcc, (byte) 0x5d, (byte) 0x65, (byte) 0xb6, (byte) 0x92,
+			(byte) 0x6c, (byte) 0x70, (byte) 0x48, (byte) 0x50, (byte) 0xfd, (byte) 0xed, (byte) 0xb9, (byte) 0xda, (byte) 0x5e, (byte) 0x15, (byte) 0x46, (byte) 0x57, (byte) 0xa7, (byte) 0x8d, (byte) 0x9d, (byte) 0x84,
+			(byte) 0x90, (byte) 0xd8, (byte) 0xab, (byte) 0x00, (byte) 0x8c, (byte) 0xbc, (byte) 0xd3, (byte) 0x0a, (byte) 0xf7, (byte) 0xe4, (byte) 0x58, (byte) 0x05, (byte) 0xb8, (byte) 0xb3, (byte) 0x45, (byte) 0x06,
+			(byte) 0xd0, (byte) 0x2c, (byte) 0x1e, (byte) 0x8f, (byte) 0xca, (byte) 0x3f, (byte) 0x0f, (byte) 0x02, (byte) 0xc1, (byte) 0xaf, (byte) 0xbd, (byte) 0x03, (byte) 0x01, (byte) 0x13, (byte) 0x8a, (byte) 0x6b,
+			(byte) 0x3a, (byte) 0x91, (byte) 0x11, (byte) 0x41, (byte) 0x4f, (byte) 0x67, (byte) 0xdc, (byte) 0xea, (byte) 0x97, (byte) 0xf2, (byte) 0xcf, (byte) 0xce, (byte) 0xf0, (byte) 0xb4, (byte) 0xe6, (byte) 0x73,
+			(byte) 0x96, (byte) 0xac, (byte) 0x74, (byte) 0x22, (byte) 0xe7, (byte) 0xad, (byte) 0x35, (byte) 0x85, (byte) 0xe2, (byte) 0xf9, (byte) 0x37, (byte) 0xe8, (byte) 0x1c, (byte) 0x75, (byte) 0xdf, (byte) 0x6e,
+			(byte) 0x47, (byte) 0xf1, (byte) 0x1a, (byte) 0x71, (byte) 0x1d, (byte) 0x29, (byte) 0xc5, (byte) 0x89, (byte) 0x6f, (byte) 0xb7, (byte) 0x62, (byte) 0x0e, (byte) 0xaa, (byte) 0x18, (byte) 0xbe, (byte) 0x1b,
+			(byte) 0xfc, (byte) 0x56, (byte) 0x3e, (byte) 0x4b, (byte) 0xc6, (byte) 0xd2, (byte) 0x79, (byte) 0x20, (byte) 0x9a, (byte) 0xdb, (byte) 0xc0, (byte) 0xfe, (byte) 0x78, (byte) 0xcd, (byte) 0x5a, (byte) 0xf4,
+			(byte) 0x1f, (byte) 0xdd, (byte) 0xa8, (byte) 0x33, (byte) 0x88, (byte) 0x07, (byte) 0xc7, (byte) 0x31, (byte) 0xb1, (byte) 0x12, (byte) 0x10, (byte) 0x59, (byte) 0x27, (byte) 0x80, (byte) 0xec, (byte) 0x5f,
+			(byte) 0x60, (byte) 0x51, (byte) 0x7f, (byte) 0xa9, (byte) 0x19, (byte) 0xb5, (byte) 0x4a, (byte) 0x0d, (byte) 0x2d, (byte) 0xe5, (byte) 0x7a, (byte) 0x9f, (byte) 0x93, (byte) 0xc9, (byte) 0x9c, (byte) 0xef,
+			(byte) 0xa0, (byte) 0xe0, (byte) 0x3b, (byte) 0x4d, (byte) 0xae, (byte) 0x2a, (byte) 0xf5, (byte) 0xb0, (byte) 0xc8, (byte) 0xeb, (byte) 0xbb, (byte) 0x3c, (byte) 0x83, (byte) 0x53, (byte) 0x99, (byte) 0x61,
+			(byte) 0x17, (byte) 0x2b, (byte) 0x04, (byte) 0x7e, (byte) 0xba, (byte) 0x77, (byte) 0xd6, (byte) 0x26, (byte) 0xe1, (byte) 0x69, (byte) 0x14, (byte) 0x63, (byte) 0x55, (byte) 0x21, (byte) 0x0c, (byte) 0x7d }; 
+	// End of invSBox Def
 	
 	private final int[] Rcon = {0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000};
 	
 	// Globals allocated here for speed...
 	byte[][] state = new byte[4][4];
-	byte[][] ivState = new byte[4][4];
+	byte[][] invState = new byte[4][4];
 	
 	//
 	// End of all globals...
@@ -71,132 +71,132 @@ public class AES
 	public void decrypt(byte[] in, byte[] out)
 	{
 		// Copy input to state.
-		ivState[0][0] = in[0];
-		ivState[1][0] = in[1];
-		ivState[2][0] = in[2];
-		ivState[3][0] = in[3];
-		ivState[0][1] = in[4];
-		ivState[1][1] = in[5];
-		ivState[2][1] = in[6];
-		ivState[3][1] = in[7];
-		ivState[0][2] = in[8];
-		ivState[1][2] = in[9];
-		ivState[2][2] = in[10];
-		ivState[3][2] = in[11];
-		ivState[0][3] = in[12];
-		ivState[1][3] = in[13];
-		ivState[2][3] = in[14];
-		ivState[3][3] = in[15];
+		invState[0][0] = in[0];
+		invState[1][0] = in[1];
+		invState[2][0] = in[2];
+		invState[3][0] = in[3];
+		invState[0][1] = in[4];
+		invState[1][1] = in[5];
+		invState[2][1] = in[6];
+		invState[3][1] = in[7];
+		invState[0][2] = in[8];
+		invState[1][2] = in[9];
+		invState[2][2] = in[10];
+		invState[3][2] = in[11];
+		invState[0][3] = in[12];
+		invState[1][3] = in[13];
+		invState[2][3] = in[14];
+		invState[3][3] = in[15];
 		
 		// Round Nr
-		addRoundKey(ivState, Nr);
+		addRoundKey(invState, Nr);
 		
 		if(Nr > 10)
 		{
 			if(Nr > 12)
 			{
 				// Round 13
-				invShiftRows(ivState);
-				invSubBytes(ivState);
-				addRoundKey(ivState, 13);
-				invMixColumns(ivState);
+				invShiftRows(invState);
+				invSubBytes(invState);
+				addRoundKey(invState, 13);
+				invMixColumns(invState);
 				
 				// Round 12
-				invShiftRows(ivState);
-				invSubBytes(ivState);
-				addRoundKey(ivState, 12);
-				invMixColumns(ivState);
+				invShiftRows(invState);
+				invSubBytes(invState);
+				addRoundKey(invState, 12);
+				invMixColumns(invState);
 			}
 			
 			// Round 11
-			invShiftRows(ivState);
-			invSubBytes(ivState);
-			addRoundKey(ivState, 11);
-			invMixColumns(ivState);
+			invShiftRows(invState);
+			invSubBytes(invState);
+			addRoundKey(invState, 11);
+			invMixColumns(invState);
 			
 			// Round 10
-			invShiftRows(ivState);
-			invSubBytes(ivState);
-			addRoundKey(ivState, 10);
-			invMixColumns(ivState);
+			invShiftRows(invState);
+			invSubBytes(invState);
+			addRoundKey(invState, 10);
+			invMixColumns(invState);
 		}
 		
 		// Round 9
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 9);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 9);
+		invMixColumns(invState);
 		
 		// Round 8
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 8);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 8);
+		invMixColumns(invState);
 		
 		// Round 7
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 7);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 7);
+		invMixColumns(invState);
 		
 		// Round 6
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 6);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 6);
+		invMixColumns(invState);
 		
 		// Round 5
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 5);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 5);
+		invMixColumns(invState);
 		
 		// Round 4
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 4);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 4);
+		invMixColumns(invState);
 		
 		// Round 3
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 3);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 3);
+		invMixColumns(invState);
 		
 		// Round 2
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 2);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 2);
+		invMixColumns(invState);
 		
 		// Round 1
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 1);
-		invMixColumns(ivState);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 1);
+		invMixColumns(invState);
 
 		// Round 0
-		invShiftRows(ivState);
-		invSubBytes(ivState);
-		addRoundKey(ivState, 0);
+		invShiftRows(invState);
+		invSubBytes(invState);
+		addRoundKey(invState, 0);
 		
 		// Copy state to the out array.
-		out[0] = ivState[0][0];
-		out[1] = ivState[1][0];
-		out[2] = ivState[2][0];
-		out[3] = ivState[3][0];
-		out[4] = ivState[0][1];
-		out[5] = ivState[1][1];
-		out[6] = ivState[2][1];
-		out[7] = ivState[3][1];
-		out[8] = ivState[0][2];
-		out[9] = ivState[1][2];
-		out[10] = ivState[2][2];
-		out[11] = ivState[3][2];
-		out[12] = ivState[0][3];
-		out[13] = ivState[1][3];
-		out[14] = ivState[2][3];
-		out[15] = ivState[3][3];
+		out[0] = invState[0][0];
+		out[1] = invState[1][0];
+		out[2] = invState[2][0];
+		out[3] = invState[3][0];
+		out[4] = invState[0][1];
+		out[5] = invState[1][1];
+		out[6] = invState[2][1];
+		out[7] = invState[3][1];
+		out[8] = invState[0][2];
+		out[9] = invState[1][2];
+		out[10] = invState[2][2];
+		out[11] = invState[3][2];
+		out[12] = invState[0][3];
+		out[13] = invState[1][3];
+		out[14] = invState[2][3];
+		out[15] = invState[3][3];
 	}
 	
 	private void invShiftRows(byte[][] pState)
@@ -227,101 +227,22 @@ public class AES
 	// This subBytes method uses a table of calculated values in sBox to speed this method up.
 	private void invSubBytes(byte[][] pState)
 	{
-		// byte 0
-		byte temp = pState[0][0];
-		int x = (int) ((temp & 0xFF) >> 4);
-		int y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][0] = invSBox[x][y];
-		
-		// byte 1
-		temp = pState[1][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][0] = invSBox[x][y];
-				
-		// byte 2
-		temp = pState[2][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][0] = invSBox[x][y];
-		
-		// byte 3
-		temp = pState[3][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][0] = invSBox[x][y];
-		
-		// byte 4
-		temp = pState[0][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][1] = invSBox[x][y];
-		
-		// byte 5
-		temp = pState[1][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][1] = invSBox[x][y];
-		
-		// byte 6
-		temp = pState[2][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][1] = invSBox[x][y];
-		
-		// byte 7
-		temp = pState[3][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][1] = invSBox[x][y];
-		
-		// byte 8
-		temp = pState[0][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][2] = invSBox[x][y];
-		
-		// byte 9
-		temp = pState[1][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][2] = invSBox[x][y];
-		
-		// byte 10
-		temp = pState[2][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][2] = invSBox[x][y];
-		
-		// byte 11
-		temp = pState[3][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][2] = invSBox[x][y];
-		
-		// byte 12
-		temp = pState[0][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][3] = invSBox[x][y];
-		
-		// byte 13
-		temp = pState[1][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][3] = invSBox[x][y];
-		
-		// byte 14
-		temp = pState[2][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][3] = invSBox[x][y];
-		
-		// byte 15
-		temp = pState[3][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][3] = invSBox[x][y];
+		pState[0][0] = invSBox[pState[0][0] & 0xFF];
+		pState[1][0] = invSBox[pState[1][0] & 0xFF];
+		pState[2][0] = invSBox[pState[2][0] & 0xFF];
+		pState[3][0] = invSBox[pState[3][0] & 0xFF];
+		pState[0][1] = invSBox[pState[0][1] & 0xFF];
+		pState[1][1] = invSBox[pState[1][1] & 0xFF];
+		pState[2][1] = invSBox[pState[2][1] & 0xFF];
+		pState[3][1] = invSBox[pState[3][1] & 0xFF];
+		pState[0][2] = invSBox[pState[0][2] & 0xFF];
+		pState[1][2] = invSBox[pState[1][2] & 0xFF];
+		pState[2][2] = invSBox[pState[2][2] & 0xFF];
+		pState[3][2] = invSBox[pState[3][2] & 0xFF];
+		pState[0][3] = invSBox[pState[0][3] & 0xFF];
+		pState[1][3] = invSBox[pState[1][3] & 0xFF];
+		pState[2][3] = invSBox[pState[2][3] & 0xFF];
+		pState[3][3] = invSBox[pState[3][3] & 0xFF];
 	}
 	
 	private void invMixColumns(byte[][] pState)
@@ -502,101 +423,22 @@ public class AES
 	// This subBytes method uses a table of calculated values in sBox to speed this method up.
 	private void subBytes(byte[][] pState)
 	{
-		// byte 0
-		byte temp = pState[0][0];
-		int x = (int) ((temp & 0xFF) >> 4);
-		int y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][0] = sBox[x][y];
-		
-		// byte 1
-		temp = pState[1][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][0] = sBox[x][y];
-		
-		// byte 2
-		temp = pState[2][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][0] = sBox[x][y];
-		
-		// byte 3
-		temp = pState[3][0];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][0] = sBox[x][y];
-		
-		// byte 4
-		temp = pState[0][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][1] = sBox[x][y];
-		
-		// byte 5
-		temp = pState[1][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][1] = sBox[x][y];
-		
-		// byte 6
-		temp = pState[2][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][1] = sBox[x][y];
-		
-		// byte 7
-		temp = pState[3][1];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][1] = sBox[x][y];
-		
-		// byte 8
-		temp = pState[0][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][2] = sBox[x][y];
-		
-		// byte 9
-		temp = pState[1][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][2] = sBox[x][y];
-		
-		// byte 10
-		temp = pState[2][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][2] = sBox[x][y];
-		
-		// byte 11
-		temp = pState[3][2];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][2] = sBox[x][y];
-		
-		// byte 12
-		temp = pState[0][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[0][3] = sBox[x][y];
-		
-		// byte 13
-		temp = pState[1][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[1][3] = sBox[x][y];
-		
-		// byte 14
-		temp = pState[2][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[2][3] = sBox[x][y];
-		
-		// byte 15
-		temp = pState[3][3];
-		x = (int) ((temp & 0xFF) >> 4);
-		y = (int) ((x << 4)^(temp & 0xFF));
-		pState[3][3] = sBox[x][y];
+		pState[0][0] = sBox[pState[0][0] & 0xFF];
+		pState[1][0] = sBox[pState[1][0] & 0xFF];
+		pState[2][0] = sBox[pState[2][0] & 0xFF];
+		pState[3][0] = sBox[pState[3][0] & 0xFF];
+		pState[0][1] = sBox[pState[0][1] & 0xFF];
+		pState[1][1] = sBox[pState[1][1] & 0xFF];
+		pState[2][1] = sBox[pState[2][1] & 0xFF];
+		pState[3][1] = sBox[pState[3][1] & 0xFF];
+		pState[0][2] = sBox[pState[0][2] & 0xFF];
+		pState[1][2] = sBox[pState[1][2] & 0xFF];
+		pState[2][2] = sBox[pState[2][2] & 0xFF];
+		pState[3][2] = sBox[pState[3][2] & 0xFF];
+		pState[0][3] = sBox[pState[0][3] & 0xFF];
+		pState[1][3] = sBox[pState[1][3] & 0xFF];
+		pState[2][3] = sBox[pState[2][3] & 0xFF];
+		pState[3][3] = sBox[pState[3][3] & 0xFF];
 	}
 	
 	private void shiftRows(byte[][] pState)
@@ -671,31 +513,31 @@ public class AES
 	{
 		// column 0
 		int word = w[round*Nb];
-		pState[0][0] ^= (byte) (((word & 0xFFFFFFFF) >> 24) & 0xFF);
-		pState[1][0] ^= (byte) ((word >> 16) & 0xFF);
-		pState[2][0] ^= (byte) ((word >> 8) & 0xFF);
-		pState[3][0] ^= (byte) (word & 0xFF);
+		pState[0][0] ^= (byte) (word >> 24);
+		pState[1][0] ^= (byte) (word >> 16);
+		pState[2][0] ^= (byte) (word >> 8);
+		pState[3][0] ^= (byte) (word);
 			
 		// column 1
 		word = w[round*Nb + 1];
-		pState[0][1] ^= (byte) (((word & 0xFFFFFFFF) >> 24) & 0xFF);
-		pState[1][1] ^= (byte) ((word >> 16) & 0xFF);
-		pState[2][1] ^= (byte) ((word >> 8) & 0xFF);
-		pState[3][1] ^= (byte) (word & 0xFF);
+		pState[0][1] ^= (byte) (word >> 24);
+		pState[1][1] ^= (byte) (word >> 16);
+		pState[2][1] ^= (byte) (word >> 8);
+		pState[3][1] ^= (byte) (word);
 			
 		// column 2
 		word = w[round*Nb + 2];
-		pState[0][2] ^= (byte) (((word & 0xFFFFFFFF) >> 24) & 0xFF);
-		pState[1][2] ^= (byte) ((word >> 16) & 0xFF);
-		pState[2][2] ^= (byte) ((word >> 8) & 0xFF);
-		pState[3][2] ^= (byte) (word & 0xFF);
+		pState[0][2] ^= (byte) (word >> 24);
+		pState[1][2] ^= (byte) (word >> 16);
+		pState[2][2] ^= (byte) (word >> 8);
+		pState[3][2] ^= (byte) (word);
 			
 		// column 3
 		word = w[round*Nb + 3];
-		pState[0][3] ^= (byte) (((word & 0xFFFFFFFF) >> 24) & 0xFF);
-		pState[1][3] ^= (byte) ((word >> 16) & 0xFF);
-		pState[2][3] ^= (byte) ((word >> 8) & 0xFF);
-		pState[3][3] ^= (byte) (word & 0xFF);
+		pState[0][3] ^= (byte) (word >> 24);
+		pState[1][3] ^= (byte) (word >> 16);
+		pState[2][3] ^= (byte) (word >> 8);
+		pState[3][3] ^= (byte) (word);
 	}
 
 	// This is a function that is defined in the AES standard to multiply two bytes in F(2^8). This is the slow version.
@@ -759,18 +601,10 @@ public class AES
 	// Private method needed by Key Expansion
 	private int SubWord(int pWord)
 	{
-		return (int)(((sBox((byte) ((pWord & 0xFFFFFFFF) >> 24))& 0xFF) << 24) |
-				((sBox((byte) ((pWord >> 16) & 0xFF))& 0xFF) << 16) |
-				((sBox((byte) ((pWord >> 8) & 0xFF))& 0xFF) << 8) |
-				(sBox((byte) (pWord & 0xFF))& 0xFF));
-	}
-	
-	// Private method needed by Key Expansion
-	private byte sBox(byte temp)
-	{
-		int x = (int) ((temp & 0xFF) >> 4);
-		int y = (int) ((x << 4)^(temp & 0xFF));
-		return(sBox[x][y]);
+		return (int)((sBox[(pWord >> 24) & 0xFF] & 0xFF) << 24 |
+				(sBox[(pWord >> 16) & 0xFF] & 0xFF) << 16 |
+				(sBox[(pWord >> 8) & 0xFF] & 0xFF) << 8 |
+				sBox[pWord & 0xFF] & 0xFF);
 	}
 	
 	// Private method needed by Key Expansion
