@@ -97,7 +97,7 @@ public class AES
 			103, 74, 237, 222, 197, 49, 254, 24, 13, 99, 140, 128, 192, 247, 112, 7
 	};
 	
-	private final int[] Rcon = {0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000};
+	private static final int[] Rcon = {0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000};
 	
 	// Globals states allocated here...
 	byte[][] state = new byte[4][4];
@@ -117,7 +117,7 @@ public class AES
 		KeyExpansion(key);
 	}
 	
-	public void decrypt(byte[] in, byte[] out)
+	public synchronized void decrypt(byte[] in, byte[] out)
 	{
 		// Copy input to state.
 		invState[0][0] = in[0];
@@ -338,7 +338,7 @@ public class AES
 	}
 	
 	// This is the AES encryption algorithm.
-	public void encrypt(byte[] in, byte[] out)
+	public synchronized void encrypt(byte[] in, byte[] out)
 	{
 		// Copy input to state.
 		state[0][0] = in[0];
@@ -558,7 +558,7 @@ public class AES
 			pState[3][3] = (byte) (mult((byte)0x03, s0)^s1^s2^mult((byte)0x02, s3));
 	}
 	
-	private void addRoundKey(byte[][] pState, int round)
+	private synchronized void addRoundKey(byte[][] pState, int round)
 	{
 		// column 0
 		int word = w[round*Nb];
@@ -591,7 +591,7 @@ public class AES
 	
 	// This is the fast multiplication method ( using indices in GF(2^8) ).
 	// This should not be vulnerable to timing attacks like the slow multiplication method.
-	private byte mult(byte a, byte b)
+	private synchronized byte mult(byte a, byte b)
 	{
 		return ((a == 0) || (b == 0)) ? 0 : element[(ind[a & 0xFF]  + ind[b & 0xFF]) % 255];
 	}
