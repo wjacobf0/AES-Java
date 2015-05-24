@@ -10,7 +10,7 @@ public class AES
 	
 	private final int[] w;
 	
-	private final byte[] sBox = {
+	private static final byte[] sBox = {
 			(byte) 0x63, (byte) 0x7c, (byte) 0x77, (byte) 0x7b, (byte) 0xf2, (byte) 0x6b, (byte) 0x6f, (byte) 0xc5, (byte) 0x30, (byte) 0x01, (byte) 0x67, (byte) 0x2b, (byte) 0xfe, (byte) 0xd7, (byte) 0xab, (byte) 0x76,
 			(byte) 0xca, (byte) 0x82, (byte) 0xc9, (byte) 0x7d, (byte) 0xfa, (byte) 0x59, (byte) 0x47, (byte) 0xf0, (byte) 0xad, (byte) 0xd4, (byte) 0xa2, (byte) 0xaf, (byte) 0x9c, (byte) 0xa4, (byte) 0x72, (byte) 0xc0,
 			(byte) 0xb7, (byte) 0xfd, (byte) 0x93, (byte) 0x26, (byte) 0x36, (byte) 0x3f, (byte) 0xf7, (byte) 0xcc, (byte) 0x34, (byte) 0xa5, (byte) 0xe5, (byte) 0xf1, (byte) 0x71, (byte) 0xd8, (byte) 0x31, (byte) 0x15,
@@ -26,10 +26,11 @@ public class AES
 			(byte) 0xba, (byte) 0x78, (byte) 0x25, (byte) 0x2e, (byte) 0x1c, (byte) 0xa6, (byte) 0xb4, (byte) 0xc6, (byte) 0xe8, (byte) 0xdd, (byte) 0x74, (byte) 0x1f, (byte) 0x4b, (byte) 0xbd, (byte) 0x8b, (byte) 0x8a,
 			(byte) 0x70, (byte) 0x3e, (byte) 0xb5, (byte) 0x66, (byte) 0x48, (byte) 0x03, (byte) 0xf6, (byte) 0x0e, (byte) 0x61, (byte) 0x35, (byte) 0x57, (byte) 0xb9, (byte) 0x86, (byte) 0xc1, (byte) 0x1d, (byte) 0x9e,
 			(byte) 0xe1, (byte) 0xf8, (byte) 0x98, (byte) 0x11, (byte) 0x69, (byte) 0xd9, (byte) 0x8e, (byte) 0x94, (byte) 0x9b, (byte) 0x1e, (byte) 0x87, (byte) 0xe9, (byte) 0xce, (byte) 0x55, (byte) 0x28, (byte) 0xdf,
-			(byte) 0x8c, (byte) 0xa1, (byte) 0x89, (byte) 0x0d, (byte) 0xbf, (byte) 0xe6, (byte) 0x42, (byte) 0x68, (byte) 0x41, (byte) 0x99, (byte) 0x2d, (byte) 0x0f, (byte) 0xb0, (byte) 0x54, (byte) 0xbb, (byte) 0x16}; 
+			(byte) 0x8c, (byte) 0xa1, (byte) 0x89, (byte) 0x0d, (byte) 0xbf, (byte) 0xe6, (byte) 0x42, (byte) 0x68, (byte) 0x41, (byte) 0x99, (byte) 0x2d, (byte) 0x0f, (byte) 0xb0, (byte) 0x54, (byte) 0xbb, (byte) 0x16
+	}; 
 	// End of sBox Def
 
-	private final byte[] invSBox = {
+	private static final byte[] invSBox = {
 			(byte) 0x52, (byte) 0x09, (byte) 0x6a, (byte) 0xd5, (byte) 0x30, (byte) 0x36, (byte) 0xa5, (byte) 0x38, (byte) 0xbf, (byte) 0x40, (byte) 0xa3, (byte) 0x9e, (byte) 0x81, (byte) 0xf3, (byte) 0xd7, (byte) 0xfb,
 			(byte) 0x7c, (byte) 0xe3, (byte) 0x39, (byte) 0x82, (byte) 0x9b, (byte) 0x2f, (byte) 0xff, (byte) 0x87, (byte) 0x34, (byte) 0x8e, (byte) 0x43, (byte) 0x44, (byte) 0xc4, (byte) 0xde, (byte) 0xe9, (byte) 0xcb,
 			(byte) 0x54, (byte) 0x7b, (byte) 0x94, (byte) 0x32, (byte) 0xa6, (byte) 0xc2, (byte) 0x23, (byte) 0x3d, (byte) 0xee, (byte) 0x4c, (byte) 0x95, (byte) 0x0b, (byte) 0x42, (byte) 0xfa, (byte) 0xc3, (byte) 0x4e,
@@ -45,12 +46,60 @@ public class AES
 			(byte) 0x1f, (byte) 0xdd, (byte) 0xa8, (byte) 0x33, (byte) 0x88, (byte) 0x07, (byte) 0xc7, (byte) 0x31, (byte) 0xb1, (byte) 0x12, (byte) 0x10, (byte) 0x59, (byte) 0x27, (byte) 0x80, (byte) 0xec, (byte) 0x5f,
 			(byte) 0x60, (byte) 0x51, (byte) 0x7f, (byte) 0xa9, (byte) 0x19, (byte) 0xb5, (byte) 0x4a, (byte) 0x0d, (byte) 0x2d, (byte) 0xe5, (byte) 0x7a, (byte) 0x9f, (byte) 0x93, (byte) 0xc9, (byte) 0x9c, (byte) 0xef,
 			(byte) 0xa0, (byte) 0xe0, (byte) 0x3b, (byte) 0x4d, (byte) 0xae, (byte) 0x2a, (byte) 0xf5, (byte) 0xb0, (byte) 0xc8, (byte) 0xeb, (byte) 0xbb, (byte) 0x3c, (byte) 0x83, (byte) 0x53, (byte) 0x99, (byte) 0x61,
-			(byte) 0x17, (byte) 0x2b, (byte) 0x04, (byte) 0x7e, (byte) 0xba, (byte) 0x77, (byte) 0xd6, (byte) 0x26, (byte) 0xe1, (byte) 0x69, (byte) 0x14, (byte) 0x63, (byte) 0x55, (byte) 0x21, (byte) 0x0c, (byte) 0x7d }; 
+			(byte) 0x17, (byte) 0x2b, (byte) 0x04, (byte) 0x7e, (byte) 0xba, (byte) 0x77, (byte) 0xd6, (byte) 0x26, (byte) 0xe1, (byte) 0x69, (byte) 0x14, (byte) 0x63, (byte) 0x55, (byte) 0x21, (byte) 0x0c, (byte) 0x7d 
+	}; 
 	// End of invSBox Def
+	
+	
+	//
+	// For information on how the following two arrays are used to compute fast multiplication in GF(2^8)
+	// 	read about the theory of indices as described by Gauss in his Disquisitiones Arithmeticae.
+	//
+	
+	// These are the elements for GF(2^8) with array index equal to he index of a byte b relative to 0x03 in GF(2^8).
+	private static final byte[] element = {
+			(byte) 0x01, (byte) 0x03, (byte) 0x05, (byte) 0x0F, (byte) 0x11, (byte) 0x33, (byte) 0x55, (byte) 0xFF, (byte) 0x1A, (byte) 0x2E, (byte) 0x72, (byte) 0x96, (byte) 0xA1, (byte) 0xF8, (byte) 0x13, (byte) 0x35, 
+			(byte) 0x5F, (byte) 0xE1, (byte) 0x38, (byte) 0x48, (byte) 0xD8, (byte) 0x73, (byte) 0x95, (byte) 0xA4, (byte) 0xF7, (byte) 0x02, (byte) 0x06, (byte) 0x0A, (byte) 0x1E, (byte) 0x22, (byte) 0x66, (byte) 0xAA, 
+			(byte) 0xE5, (byte) 0x34, (byte) 0x5C, (byte) 0xE4, (byte) 0x37, (byte) 0x59, (byte) 0xEB, (byte) 0x26, (byte) 0x6A, (byte) 0xBE, (byte) 0xD9, (byte) 0x70, (byte) 0x90, (byte) 0xAB, (byte) 0xE6, (byte) 0x31, 
+			(byte) 0x53, (byte) 0xF5, (byte) 0x04, (byte) 0x0C, (byte) 0x14, (byte) 0x3C, (byte) 0x44, (byte) 0xCC, (byte) 0x4F, (byte) 0xD1, (byte) 0x68, (byte) 0xB8, (byte) 0xD3, (byte) 0x6E, (byte) 0xB2, (byte) 0xCD, 
+			(byte) 0x4C, (byte) 0xD4, (byte) 0x67, (byte) 0xA9, (byte) 0xE0, (byte) 0x3B, (byte) 0x4D, (byte) 0xD7, (byte) 0x62, (byte) 0xA6, (byte) 0xF1, (byte) 0x08, (byte) 0x18, (byte) 0x28, (byte) 0x78, (byte) 0x88, 
+			(byte) 0x83, (byte) 0x9E, (byte) 0xB9, (byte) 0xD0, (byte) 0x6B, (byte) 0xBD, (byte) 0xDC, (byte) 0x7F, (byte) 0x81, (byte) 0x98, (byte) 0xB3, (byte) 0xCE, (byte) 0x49, (byte) 0xDB, (byte) 0x76, (byte) 0x9A, 
+			(byte) 0xB5, (byte) 0xC4, (byte) 0x57, (byte) 0xF9, (byte) 0x10, (byte) 0x30, (byte) 0x50, (byte) 0xF0, (byte) 0x0B, (byte) 0x1D, (byte) 0x27, (byte) 0x69, (byte) 0xBB, (byte) 0xD6, (byte) 0x61, (byte) 0xA3, 
+			(byte) 0xFE, (byte) 0x19, (byte) 0x2B, (byte) 0x7D, (byte) 0x87, (byte) 0x92, (byte) 0xAD, (byte) 0xEC, (byte) 0x2F, (byte) 0x71, (byte) 0x93, (byte) 0xAE, (byte) 0xE9, (byte) 0x20, (byte) 0x60, (byte) 0xA0, 
+			(byte) 0xFB, (byte) 0x16, (byte) 0x3A, (byte) 0x4E, (byte) 0xD2, (byte) 0x6D, (byte) 0xB7, (byte) 0xC2, (byte) 0x5D, (byte) 0xE7, (byte) 0x32, (byte) 0x56, (byte) 0xFA, (byte) 0x15, (byte) 0x3F, (byte) 0x41, 
+			(byte) 0xC3, (byte) 0x5E, (byte) 0xE2, (byte) 0x3D, (byte) 0x47, (byte) 0xC9, (byte) 0x40, (byte) 0xC0, (byte) 0x5B, (byte) 0xED, (byte) 0x2C, (byte) 0x74, (byte) 0x9C, (byte) 0xBF, (byte) 0xDA, (byte) 0x75, 
+			(byte) 0x9F, (byte) 0xBA, (byte) 0xD5, (byte) 0x64, (byte) 0xAC, (byte) 0xEF, (byte) 0x2A, (byte) 0x7E, (byte) 0x82, (byte) 0x9D, (byte) 0xBC, (byte) 0xDF, (byte) 0x7A, (byte) 0x8E, (byte) 0x89, (byte) 0x80, 
+			(byte) 0x9B, (byte) 0xB6, (byte) 0xC1, (byte) 0x58, (byte) 0xE8, (byte) 0x23, (byte) 0x65, (byte) 0xAF, (byte) 0xEA, (byte) 0x25, (byte) 0x6F, (byte) 0xB1, (byte) 0xC8, (byte) 0x43, (byte) 0xC5, (byte) 0x54, 
+			(byte) 0xFC, (byte) 0x1F, (byte) 0x21, (byte) 0x63, (byte) 0xA5, (byte) 0xF4, (byte) 0x07, (byte) 0x09, (byte) 0x1B, (byte) 0x2D, (byte) 0x77, (byte) 0x99, (byte) 0xB0, (byte) 0xCB, (byte) 0x46, (byte) 0xCA, 
+			(byte) 0x45, (byte) 0xCF, (byte) 0x4A, (byte) 0xDE, (byte) 0x79, (byte) 0x8B, (byte) 0x86, (byte) 0x91, (byte) 0xA8, (byte) 0xE3, (byte) 0x3E, (byte) 0x42, (byte) 0xC6, (byte) 0x51, (byte) 0xF3, (byte) 0x0E, 
+			(byte) 0x12, (byte) 0x36, (byte) 0x5A, (byte) 0xEE, (byte) 0x29, (byte) 0x7B, (byte) 0x8D, (byte) 0x8C, (byte) 0x8F, (byte) 0x8A, (byte) 0x85, (byte) 0x94, (byte) 0xA7, (byte) 0xF2, (byte) 0x0D, (byte) 0x17, 
+			(byte) 0x39, (byte) 0x4B, (byte) 0xDD, (byte) 0x7C, (byte) 0x84, (byte) 0x97, (byte) 0xA2, (byte) 0xFD, (byte) 0x1C, (byte) 0x24, (byte) 0x6C, (byte) 0xB4, (byte) 0xC7, (byte) 0x52, (byte) 0xF6, (byte) 0x01
+	};
+	
+	// compute the index of a byte b relative to 0x03 in GF(2^8)
+	// using an
+	private static final int[] ind = {
+			0, 0, 25, 1, 50, 2, 26, 198, 75, 199, 27, 104, 51, 238, 223, 3, 
+			100, 4, 224, 14, 52, 141, 129, 239, 76, 113, 8, 200, 248, 105, 28, 193, 
+			125, 194, 29, 181, 249, 185, 39, 106, 77, 228, 166, 114, 154, 201, 9, 120, 
+			101, 47, 138, 5, 33, 15, 225, 36, 18, 240, 130, 69, 53, 147, 218, 142, 
+			150, 143, 219, 189, 54, 208, 206, 148, 19, 92, 210, 241, 64, 70, 131, 56, 
+			102, 221, 253, 48, 191, 6, 139, 98, 179, 37, 226, 152, 34, 136, 145, 16, 
+			126, 110, 72, 195, 163, 182, 30, 66, 58, 107, 40, 84, 250, 133, 61, 186, 
+			43, 121, 10, 21, 155, 159, 94, 202, 78, 212, 172, 229, 243, 115, 167, 87, 
+			175, 88, 168, 80, 244, 234, 214, 116, 79, 174, 233, 213, 231, 230, 173, 232, 
+			44, 215, 117, 122, 235, 22, 11, 245, 89, 203, 95, 176, 156, 169, 81, 160, 
+			127, 12, 246, 111, 23, 196, 73, 236, 216, 67, 31, 45, 164, 118, 123, 183, 
+			204, 187, 62, 90, 251, 96, 177, 134, 59, 82, 161, 108, 170, 85, 41, 157, 
+			151, 178, 135, 144, 97, 190, 220, 252, 188, 149, 207, 205, 55, 63, 91, 209, 
+			83, 57, 132, 60, 65, 162, 109, 71, 20, 42, 158, 93, 86, 242, 211, 171, 
+			68, 17, 146, 217, 35, 32, 46, 137, 180, 124, 184, 38, 119, 153, 227, 165, 
+			103, 74, 237, 222, 197, 49, 254, 24, 13, 99, 140, 128, 192, 247, 112, 7
+	};
 	
 	private final int[] Rcon = {0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000, 0x20000000, 0x40000000, 0x80000000, 0x1b000000, 0x36000000};
 	
-	// Globals allocated here for speed...
+	// Globals states allocated here...
 	byte[][] state = new byte[4][4];
 	byte[][] invState = new byte[4][4];
 	
@@ -252,40 +301,40 @@ public class AES
 			byte s1 = pState[1][0];
 			byte s2 = pState[2][0];
 			byte s3 = pState[3][0];
-			pState[0][0] = (byte) (multiply((byte)0x0e, s0)^multiply((byte)0x0b, s1)^multiply((byte)0x0d, s2)^multiply((byte)0x09, s3));
-			pState[1][0] = (byte) (multiply((byte)0x09, s0)^multiply((byte)0x0e, s1)^multiply((byte)0x0b, s2)^multiply((byte)0x0d, s3));
-			pState[2][0] = (byte) (multiply((byte)0x0d, s0)^multiply((byte)0x09, s1)^multiply((byte)0x0e, s2)^multiply((byte)0x0b, s3));
-			pState[3][0] = (byte) (multiply((byte)0x0b, s0)^multiply((byte)0x0d, s1)^multiply((byte)0x09, s2)^multiply((byte)0x0e, s3));
+			pState[0][0] = (byte) (mult((byte)0x0e, s0)^mult((byte)0x0b, s1)^mult((byte)0x0d, s2)^mult((byte)0x09, s3));
+			pState[1][0] = (byte) (mult((byte)0x09, s0)^mult((byte)0x0e, s1)^mult((byte)0x0b, s2)^mult((byte)0x0d, s3));
+			pState[2][0] = (byte) (mult((byte)0x0d, s0)^mult((byte)0x09, s1)^mult((byte)0x0e, s2)^mult((byte)0x0b, s3));
+			pState[3][0] = (byte) (mult((byte)0x0b, s0)^mult((byte)0x0d, s1)^mult((byte)0x09, s2)^mult((byte)0x0e, s3));
 			
 			// column 1
 			s0 = pState[0][1];
 			s1 = pState[1][1];
 			s2 = pState[2][1];
 			s3 = pState[3][1];
-			pState[0][1] = (byte) (multiply((byte)0x0e, s0)^multiply((byte)0x0b, s1)^multiply((byte)0x0d, s2)^multiply((byte)0x09, s3));
-			pState[1][1] = (byte) (multiply((byte)0x09, s0)^multiply((byte)0x0e, s1)^multiply((byte)0x0b, s2)^multiply((byte)0x0d, s3));
-			pState[2][1] = (byte) (multiply((byte)0x0d, s0)^multiply((byte)0x09, s1)^multiply((byte)0x0e, s2)^multiply((byte)0x0b, s3));
-			pState[3][1] = (byte) (multiply((byte)0x0b, s0)^multiply((byte)0x0d, s1)^multiply((byte)0x09, s2)^multiply((byte)0x0e, s3));
+			pState[0][1] = (byte) (mult((byte)0x0e, s0)^mult((byte)0x0b, s1)^mult((byte)0x0d, s2)^mult((byte)0x09, s3));
+			pState[1][1] = (byte) (mult((byte)0x09, s0)^mult((byte)0x0e, s1)^mult((byte)0x0b, s2)^mult((byte)0x0d, s3));
+			pState[2][1] = (byte) (mult((byte)0x0d, s0)^mult((byte)0x09, s1)^mult((byte)0x0e, s2)^mult((byte)0x0b, s3));
+			pState[3][1] = (byte) (mult((byte)0x0b, s0)^mult((byte)0x0d, s1)^mult((byte)0x09, s2)^mult((byte)0x0e, s3));
 			
 			// column 2
 			s0 = pState[0][2];
 			s1 = pState[1][2];
 			s2 = pState[2][2];
 			s3 = pState[3][2];
-			pState[0][2] = (byte) (multiply((byte)0x0e, s0)^multiply((byte)0x0b, s1)^multiply((byte)0x0d, s2)^multiply((byte)0x09, s3));
-			pState[1][2] = (byte) (multiply((byte)0x09, s0)^multiply((byte)0x0e, s1)^multiply((byte)0x0b, s2)^multiply((byte)0x0d, s3));
-			pState[2][2] = (byte) (multiply((byte)0x0d, s0)^multiply((byte)0x09, s1)^multiply((byte)0x0e, s2)^multiply((byte)0x0b, s3));
-			pState[3][2] = (byte) (multiply((byte)0x0b, s0)^multiply((byte)0x0d, s1)^multiply((byte)0x09, s2)^multiply((byte)0x0e, s3));
+			pState[0][2] = (byte) (mult((byte)0x0e, s0)^mult((byte)0x0b, s1)^mult((byte)0x0d, s2)^mult((byte)0x09, s3));
+			pState[1][2] = (byte) (mult((byte)0x09, s0)^mult((byte)0x0e, s1)^mult((byte)0x0b, s2)^mult((byte)0x0d, s3));
+			pState[2][2] = (byte) (mult((byte)0x0d, s0)^mult((byte)0x09, s1)^mult((byte)0x0e, s2)^mult((byte)0x0b, s3));
+			pState[3][2] = (byte) (mult((byte)0x0b, s0)^mult((byte)0x0d, s1)^mult((byte)0x09, s2)^mult((byte)0x0e, s3));
 			
 			// column 3
 			s0 = pState[0][3];
 			s1 = pState[1][3];
 			s2 = pState[2][3];
 			s3 = pState[3][3];
-			pState[0][3] = (byte) (multiply((byte)0x0e, s0)^multiply((byte)0x0b, s1)^multiply((byte)0x0d, s2)^multiply((byte)0x09, s3));
-			pState[1][3] = (byte) (multiply((byte)0x09, s0)^multiply((byte)0x0e, s1)^multiply((byte)0x0b, s2)^multiply((byte)0x0d, s3));
-			pState[2][3] = (byte) (multiply((byte)0x0d, s0)^multiply((byte)0x09, s1)^multiply((byte)0x0e, s2)^multiply((byte)0x0b, s3));
-			pState[3][3] = (byte) (multiply((byte)0x0b, s0)^multiply((byte)0x0d, s1)^multiply((byte)0x09, s2)^multiply((byte)0x0e, s3));
+			pState[0][3] = (byte) (mult((byte)0x0e, s0)^mult((byte)0x0b, s1)^mult((byte)0x0d, s2)^mult((byte)0x09, s3));
+			pState[1][3] = (byte) (mult((byte)0x09, s0)^mult((byte)0x0e, s1)^mult((byte)0x0b, s2)^mult((byte)0x0d, s3));
+			pState[2][3] = (byte) (mult((byte)0x0d, s0)^mult((byte)0x09, s1)^mult((byte)0x0e, s2)^mult((byte)0x0b, s3));
+			pState[3][3] = (byte) (mult((byte)0x0b, s0)^mult((byte)0x0d, s1)^mult((byte)0x09, s2)^mult((byte)0x0e, s3));
 	}
 	
 	// This is the AES encryption algorithm.
@@ -473,40 +522,40 @@ public class AES
 			byte s1 = pState[1][0];
 			byte s2 = pState[2][0];
 			byte s3 = pState[3][0];
-			pState[0][0] = (byte) (multiply((byte)0x02, s0)^multiply((byte)0x03, s1)^s2^s3);
-			pState[1][0] = (byte) (s0^multiply((byte)0x02, s1)^multiply((byte)0x03, s2)^s3);
-			pState[2][0] = (byte) (s0^s1^multiply((byte)0x02, s2)^multiply((byte)0x03, s3));
-			pState[3][0] = (byte) (multiply((byte)0x03, s0)^s1^s2^multiply((byte)0x02, s3));
+			pState[0][0] = (byte) (mult((byte)0x02, s0)^mult((byte)0x03, s1)^s2^s3);
+			pState[1][0] = (byte) (s0^mult((byte)0x02, s1)^mult((byte)0x03, s2)^s3);
+			pState[2][0] = (byte) (s0^s1^mult((byte)0x02, s2)^mult((byte)0x03, s3));
+			pState[3][0] = (byte) (mult((byte)0x03, s0)^s1^s2^mult((byte)0x02, s3));
 			
 			// column 1
 			s0 = pState[0][1];
 			s1 = pState[1][1];
 			s2 = pState[2][1];
 			s3 = pState[3][1];
-			pState[0][1] = (byte) (multiply((byte)0x02, s0)^multiply((byte)0x03, s1)^s2^s3);
-			pState[1][1] = (byte) (s0^multiply((byte)0x02, s1)^multiply((byte)0x03, s2)^s3);
-			pState[2][1] = (byte) (s0^s1^multiply((byte)0x02, s2)^multiply((byte)0x03, s3));
-			pState[3][1] = (byte) (multiply((byte)0x03, s0)^s1^s2^multiply((byte)0x02, s3));
+			pState[0][1] = (byte) (mult((byte)0x02, s0)^mult((byte)0x03, s1)^s2^s3);
+			pState[1][1] = (byte) (s0^mult((byte)0x02, s1)^mult((byte)0x03, s2)^s3);
+			pState[2][1] = (byte) (s0^s1^mult((byte)0x02, s2)^mult((byte)0x03, s3));
+			pState[3][1] = (byte) (mult((byte)0x03, s0)^s1^s2^mult((byte)0x02, s3));
 			
 			// column 2
 			s0 = pState[0][2];
 			s1 = pState[1][2];
 			s2 = pState[2][2];
 			s3 = pState[3][2];
-			pState[0][2] = (byte) (multiply((byte)0x02, s0)^multiply((byte)0x03, s1)^s2^s3);
-			pState[1][2] = (byte) (s0^multiply((byte)0x02, s1)^multiply((byte)0x03, s2)^s3);
-			pState[2][2] = (byte) (s0^s1^multiply((byte)0x02, s2)^multiply((byte)0x03, s3));
-			pState[3][2] = (byte) (multiply((byte)0x03, s0)^s1^s2^multiply((byte)0x02, s3));
+			pState[0][2] = (byte) (mult((byte)0x02, s0)^mult((byte)0x03, s1)^s2^s3);
+			pState[1][2] = (byte) (s0^mult((byte)0x02, s1)^mult((byte)0x03, s2)^s3);
+			pState[2][2] = (byte) (s0^s1^mult((byte)0x02, s2)^mult((byte)0x03, s3));
+			pState[3][2] = (byte) (mult((byte)0x03, s0)^s1^s2^mult((byte)0x02, s3));
 			
 			// column 3
 			s0 = pState[0][3];
 			s1 = pState[1][3];
 			s2 = pState[2][3];
 			s3 = pState[3][3];
-			pState[0][3] = (byte) (multiply((byte)0x02, s0)^multiply((byte)0x03, s1)^s2^s3);
-			pState[1][3] = (byte) (s0^multiply((byte)0x02, s1)^multiply((byte)0x03, s2)^s3);
-			pState[2][3] = (byte) (s0^s1^multiply((byte)0x02, s2)^multiply((byte)0x03, s3));
-			pState[3][3] = (byte) (multiply((byte)0x03, s0)^s1^s2^multiply((byte)0x02, s3));
+			pState[0][3] = (byte) (mult((byte)0x02, s0)^mult((byte)0x03, s1)^s2^s3);
+			pState[1][3] = (byte) (s0^mult((byte)0x02, s1)^mult((byte)0x03, s2)^s3);
+			pState[2][3] = (byte) (s0^s1^mult((byte)0x02, s2)^mult((byte)0x03, s3));
+			pState[3][3] = (byte) (mult((byte)0x03, s0)^s1^s2^mult((byte)0x02, s3));
 	}
 	
 	private void addRoundKey(byte[][] pState, int round)
@@ -539,32 +588,12 @@ public class AES
 		pState[2][3] ^= (byte) (word >> 8);
 		pState[3][3] ^= (byte) (word);
 	}
-
-	// This is a function that is defined in the AES standard to multiply two bytes in F(2^8). This is the slow version.
-	private byte multiply(byte a, byte b)
+	
+	// This is the fast multiplication method ( using indices in GF(2^8) ).
+	// This should not be vulnerable to timing attacks like the slow multiplication method.
+	private byte mult(byte a, byte b)
 	{
-		byte p =0;
-		byte counter;
-		byte hi_bit_set;
-		
-		for(counter = 0; counter < 8; counter++)
-		{
-			if((b&1) != 0)
-			{
-				p ^= a;
-			}
-			
-			hi_bit_set = (byte) (a & 0x80);
-			a <<= 1;
-			
-			if(hi_bit_set != 0)
-			{
-				a ^= 0x1b;
-			}
-			b >>>= 1;
-		}
-		
-		return p;
+		return ((a == 0) || (b == 0)) ? 0 : element[(ind[a & 0xFF]  + ind[b & 0xFF]) % 255];
 	}
 	
 	// Key Expansion as described in fips-197 standard
