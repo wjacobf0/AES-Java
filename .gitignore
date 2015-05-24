@@ -1,0 +1,3 @@
+# Ignore eclipse bin path and java .class files
+*.class
+bin/
