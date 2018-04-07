@@ -77,7 +77,6 @@ public class AES
 	};
 	
 	// compute the index of a byte b relative to 0x03 in GF(2^8)
-	// using an
 	private static final int[] ind = {
 			0, 0, 25, 1, 50, 2, 26, 198, 75, 199, 27, 104, 51, 238, 223, 3, 
 			100, 4, 224, 14, 52, 141, 129, 239, 76, 113, 8, 200, 248, 105, 28, 193, 
@@ -590,7 +589,6 @@ public class AES
 	}
 	
 	// This is the fast multiplication method ( using indices in GF(2^8) ).
-	// This should not be vulnerable to timing attacks like the slow multiplication method.
 	private synchronized byte mult(byte a, byte b)
 	{
 		return ((a == 0) || (b == 0)) ? 0 : element[(ind[a & 0xFF]  + ind[b & 0xFF]) % 255];
